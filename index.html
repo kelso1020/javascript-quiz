@@ -24,12 +24,8 @@
             <span id="countdown">
             </span>
         </section>      
-        <div class="game-quiz-container">
-            <div class="game-details-container">
-                <h1>Score : <span id="player-score"></span> / 10</h1>
-                <h1> Question : <span id="question-number"></span> / 10</h1>
-            </div>
-            <div class="game-question-container">
+        <div class="quiz-container">
+            <div class="question-container">
                 <h1 id="display-question"></h1>
             </div>
             <div class="game-options-container">
@@ -62,7 +58,30 @@
                 <button onclick="handleNextQuestion()">Next Question</button>
             </div>
         </div>
+        <div class="modal-container" id="scoreboard-modal">
+            <div class="modal-content-container">
+                <h1>Scoreboard</h1>
+                <div>
+                    Questions answered correctly:
+                    <span id="score">
+                    </span>
+                </div>
+                <span>
+                    <input type="text" name="username" id="username" placeholder="Enter Initials"
+                    minlength="3" maxlength="3" required>
+                </span>
+                <div id="high-score-list"></div>
+                <div class="modal-button-container">
+                    <button id="enter-highscore">Enter Highscore</button>
+                    <button><a href="highscores.html">View Highscores</a></button>
+                    <button><a href="index.html">Try Again</a></button>
+                </div>
+            </div>
+        </div>
     </main>
+    <nav> 
+        <a href="highscores.html"></a>
+    </nav>
     <script src="index.js"></script>
 </body>
 
