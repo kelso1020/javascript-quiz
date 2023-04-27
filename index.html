@@ -7,8 +7,23 @@
     <title>Javascript Quiz</title>
     <link rel="stylesheet" href="assets/app.css">
 </head>
-<body onload="NextQuestion(0)">
-    <main>      
+<body>
+    <main>
+        <section>
+            <h1>
+                Javascript Quiz
+            </h1>
+            <p id="instructions">
+                Click the <span>Start Timer</span> button below to start the quiz.
+                You will have 60 seconds to answer 10 questions. If you answer incorrectly,
+                2 seconds will be subtracted from the timer.
+            </p>
+            <button onClick="NextQuestion(0)" id="start">
+                Start Timer
+            </button>
+            <span id="countdown">
+            </span>
+        </section>      
         <div class="game-quiz-container">
             <div class="game-details-container">
                 <h1>Score : <span id="player-score"></span> / 10</h1>
