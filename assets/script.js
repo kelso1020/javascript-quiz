@@ -1,3 +1,38 @@
+// setting variables for ids and classes in index
+var quizInstructions = document.querySelector("#quiz-instructions")
+var startButton = document.querySelector("#start");
+var quizContainer = document.querySelector(".quiz-container")
+var currentQuestion = document.querySelector("#display-question")
+
+// this make the quiz container invisible when page loads
+quizContainer.style.display = "none";
+
+// when the start button is clicked, a timer starts at 60 seconds and counts down to zero
+startButton.addEventListener("click", function() {
+
+    var secondsLeft = 10;
+
+    var quizTimer = setInterval(function(){
+        if(secondsLeft <= 0){
+            clearInterval(quizTimer);
+            // when the timer is up finished will display
+            document.getElementById("countdown").textContent = "Finished";
+            scoreBoard();
+         } else {
+           document.getElementById("countdown").textContent = secondsLeft + " seconds remaining";
+        }
+  secondsLeft -= 1;
+}, 1000);
+// when the start button is clicked, the showquiz function is called
+showQuiz();
+});
+
+// this function will make the quiz container visible
+function showQuiz() {
+    
+    quizContainer.style.display = "flex";
+}
+
 const questions = [
     {
         question: "How many days makes a week ?",
