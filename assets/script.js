@@ -7,10 +7,11 @@ var currentQuestion = document.querySelector("#display-question")
 // this make the quiz container invisible when page loads
 quizContainer.style.display = "none";
 
-// when the start button is clicked, a timer starts at 60 seconds and counts down to zero
+// when the start button is clicked,
+// a timer starts at 60 seconds and counts down to zero
 startButton.addEventListener("click", function() {
 
-    var secondsLeft = 10;
+    var secondsLeft = 60;
 
     var quizTimer = setInterval(function(){
         if(secondsLeft <= 0){
@@ -28,12 +29,13 @@ showQuiz();
 });
 
 // this function will make the quiz container visible
-function showQuiz() {
-    
+function showQuiz() {    
     quizContainer.style.display = "flex";
 }
 
-const questions = [
+//this would be the object shape for storing the questions  
+ //you can change the questions to your own taste or even add more questions..
+ const questions = [
     {
         question: "How many days makes a week ?",
         optionA: "10 days",
@@ -262,33 +264,30 @@ const questions = [
 
 ]
 
+// empty array that eill hold the quiz questions
+let randomQuestion = []
 
-let shuffledQuestions = [] //empty array to hold shuffled selected questions out of all available questions
-
+// there are 10 questions, so as long as the question number is less
+// than or equal to 9, another random question will be pushed to replace it
 function handleQuestions() { 
-    //function to shuffle and push 10 questions to shuffledQuestions array
-//app would be dealing with 10questions per session
-    while (shuffledQuestions.length <= 9) {
+    
+    while (randomQuestion.length <= 9) {
         const random = questions[Math.floor(Math.random() * questions.length)]
-        if (!shuffledQuestions.includes(random)) {
-            shuffledQuestions.push(random)
+        if (!randomQuestion.includes(random)) {
+            randomQuestion.push(random)
         }
     }
 }
 
 
-let questionNumber = 1 //holds the current question number
-let playerScore = 0  //holds the player score
-let wrongAttempt = 0 //amount of wrong answers picked by player
+let playerScore = 0
 let indexNumber = 0 //will be used in displaying next question
 
-// function for displaying next question in the array to dom
-//also handles displaying players and quiz information to dom
+// when next question function is called, a random question is displayed
+// along with its corresponding multiple choice answers
 function NextQuestion(index) {
     handleQuestions()
-    const currentQuestion = shuffledQuestions[index]
-    document.getElementById("question-number").innerHTML = questionNumber
-    document.getElementById("player-score").innerHTML = playerScore
+    const currentQuestion = randomQuestion[index]
     document.getElementById("display-question").innerHTML = currentQuestion.question;
     document.getElementById("option-one-label").innerHTML = currentQuestion.optionA;
     document.getElementById("option-two-label").innerHTML = currentQuestion.optionB;
@@ -297,9 +296,8 @@ function NextQuestion(index) {
 
 }
 
-
 function checkForAnswer() {
-    const currentQuestion = shuffledQuestions[indexNumber] //gets current Question 
+    const currentQuestion = randomQuestion[indexNumber] //gets current Question 
     const currentQuestionAnswer = currentQuestion.correctOption //gets current Question's answer
     const options = document.getElementsByName("option"); //gets all elements in dom with name of 'option' (in this the radio inputs)
     let correctOption = null
@@ -320,28 +318,31 @@ function checkForAnswer() {
     options.forEach((option) => {
         if (option.checked === true && option.value === currentQuestionAnswer) {
             document.getElementById(correctOption).style.backgroundColor = "green"
-            playerScore++ //adding to player's score
+            playerScore++
             indexNumber++ //adding 1 to index so has to display next question..
             //set to delay question number till when next question loads
             setTimeout(() => {
-                questionNumber++
+                
             }, 1000)
         }
 
         else if (option.checked && option.value !== currentQuestionAnswer) {
             const wrongLabelId = option.labels[0].id
+             // when chosen answer is incorrect, answer button background will display red
             document.getElementById(wrongLabelId).style.backgroundColor = "red"
+            // and the correct answer will be revealed with a green background display
             document.getElementById(correctOption).style.backgroundColor = "green"
-            wrongAttempt++ //adds 1 to wrong attempts 
             indexNumber++
+            secondsLeft = (-2)
             //set to delay question number till when next question loads
             setTimeout(() => {
-                questionNumber++
             }, 1000)
         }
     })
 }
 
+
+var finalScore = document.querySelector("#score")
 
 
 //called when the next button is called
@@ -355,7 +356,8 @@ function handleNextQuestion() {
             NextQuestion(indexNumber)
         }
         else {
-            handleEndGame()//ends game if index number greater than 9 meaning we're already at the 10th question
+            document.getElementById('scoreboard-modal').style.display = "flex";
+            finalScore.textContent = playerScore;
         }
         resetOptionBackground()
     }, 1000);
@@ -377,46 +379,25 @@ function unCheckRadioButtons() {
     }
 }
 
-// function for when all questions being answered
-function handleEndGame() {
-    let remark = null
-    let remarkColor = null
-
-    // condition check for player remark and remark color
-    if (playerScore <= 3) {
-        remark = "Bad Grades, Keep Practicing."
-        remarkColor = "red"
-    }
-    else if (playerScore >= 4 && playerScore < 7) {
-        remark = "Average Grades, You can do better."
-        remarkColor = "orange"
-    }
-    else if (playerScore >= 7) {
-        remark = "Excellent, Keep the good work going."
-        remarkColor = "green"
-    }
-    const playerGrade = (playerScore / 10) * 100
-
-    //data to display to score board
-    document.getElementById('remarks').innerHTML = remark
-    document.getElementById('remarks').style.color = remarkColor
-    document.getElementById('grade-percentage').innerHTML = playerGrade
-    document.getElementById('wrong-answers').innerHTML = wrongAttempt
-    document.getElementById('right-answers').innerHTML = playerScore
-    document.getElementById('score-modal').style.display = "flex"
-
+// when all of the questions have been answered or the timer has run out, the scoreboard will display
+function scoreBoard() {
+    document.getElementById('scoreboard-modal').style.display = "flex"
+     // injecting the number of correctly answered questions to the scoreboard
+    finalScore.textContent = playerScore;
 }
 
-//closes score modal, resets game and reshuffles questions
-function closeScoreModal() {
-    questionNumber = 1
-    playerScore = 0
-    wrongAttempt = 0
-    indexNumber = 0
-    shuffledQuestions = []
-    NextQuestion(indexNumber)
-    document.getElementById('score-modal').style.display = "none"
-}
+// when the enterhighscore button is clicked, user's initials will be saved and printed with quiz score
+var enterHighScore = document.querySelector("#enter-highscore");
+
+enterHighScore.addEventListener("click", function(event) {
+    event.preventDefault();
+    var username = document.getElementById("username").value;
+        localStorage.setItem("text", username); 
+        localStorage.setItem("score", playerScore);
+    var scoreList = document.querySelector("#high-score-list")
+    scoreList.textContent = localStorage.getItem("text") + ': ' + localStorage.getItem("score");
+
+});
 
 //function to close warning modal
 function closeOptionModal() {

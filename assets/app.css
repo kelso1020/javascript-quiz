@@ -1,8 +1,40 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+nav {
+    font-size: large;
 }
+
+h1 {
+    font-size: 75px;
+}
+
+#instructions, #countdown {
+    font-size: 18px;
+    padding: 10px 0;
+    
+}
+
+#instructions span {
+    text-decoration: underline;
+}
+
+#start {
+    padding: 10px;
+    border-radius: 10px;
+    background-color: lightgray;
+}
+
+#start:hover {
+    color: green;
+    cursor: pointer;
+}
+
+
+#quiz-instructions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 25px;
+ }
+
 
 html, body{
     height: 100%;
@@ -21,19 +53,16 @@ main{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: white;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
 }
 
-.game-quiz-container{
+.quiz-container{
     width: 40rem;
     height: 30rem;
     background-color: lightgray;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     justify-content: space-around;
     border-radius: 30px;
 }
@@ -132,6 +161,10 @@ input[type=radio]:checked ~ .option {
     background-color: rgb(143, 93, 93);
 }
 
+nav {
+    text-align: center;
+}
+
 .modal-container{
     display: none;
     position: fixed;
@@ -161,38 +194,30 @@ input[type=radio]:checked ~ .option {
     border-radius: 25px;
 }
 
-.modal-content-container h1{
+.modal-content-container h1, .modal-content-container div{
     font-size: 1.3rem;
-    height: 3rem;
     color: lightgray;
     text-align: center;
 }
 
-.grade-details{
-    width: 15rem;
-    height: 10rem;
+.modal-button-container{
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    justify-content: space-around;
 }
-
-.grade-details p{
+.modal-button-container a{
+    text-decoration: none;
     color: white;
-    text-align: center;
 }
 
-.modal-button-container{
-    height: 2rem;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+#username {
+    border-radius: 10px;
 }
 
 .modal-button-container button{
-    width: 10rem;
-    height: 2rem;
+    width: 8rem;
+    height: 3rem;
     background: none;
     outline: none;
     border: 1px solid rgb(252, 242, 241);
